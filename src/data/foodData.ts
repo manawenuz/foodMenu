@@ -25,6 +25,14 @@ import bakedPotatoes from '../assets/images/bakedPotatoes.webp';
 import bananaCake from '../assets/images/bananaCake.webp';
 import chickenFingers from '../assets/images/chickenFingers.webp';
 import fishFingers from '../assets/images/fishFingers.webp';
+import khinkali from '../assets/images/khinkali.webp';
+import boiledShrimps from '../assets/images/boiledShrimps.webp';
+import cucumber from '../assets/images/cucumber.webp';
+import tomatoes from '../assets/images/tomatoes.webp';
+import cookedMincedBeef from '../assets/images/cookedMincedBeef.webp';
+import sobaNoodles from '../assets/images/sobaNoodles.webp';
+import macaroniShaped1 from '../assets/images/macaroniShaped1.webp';
+import macaroniShaped2 from '../assets/images/macaroniShaped2.webp';
 
 export interface FoodItem {
   id: string;
@@ -46,7 +54,9 @@ export const foodCategories: FoodCategory[] = [
       { id: 'roasted-chicken', name: 'Roasted Chicken Leg', image: roastedChickenLeg },
       { id: 'salmon', name: 'Salmon Steak', image: salmonSteak },
       { id: 'beef-tongue', name: 'Beef Tongue', image: beeftongue },
-      { id: 'persian-omelette', name: 'Persian Omelette', image: persianOmelette }
+      { id: 'persian-omelette', name: 'Persian Omelette', image: persianOmelette },
+      { id: 'khinkali', name: 'Khinkali', image: khinkali },
+      { id: 'cooked-minced-beef', name: 'Cooked Minced Beef', image: cookedMincedBeef },
     ]
   },
   {
@@ -58,7 +68,10 @@ export const foodCategories: FoodCategory[] = [
       { id: 'thin-noodles', name: 'Thin Rice Noodles', image: thinRiceNoodles },
       { id: 'thick-noodles', name: 'Thick Rice Noodles', image: thickRiceNoodles },
       { id: 'spaghetti', name: 'Spaghetti Bolognese', image: spaghettiBolognese },
-      { id: 'macaroni', name: 'Macaroni', image: macaroni }
+      { id: 'macaroni', name: 'Macaroni', image: macaroni },
+      { id: 'soba-noodles', name: 'Soba Noodles', image: sobaNoodles },
+      { id: 'macaroni-shaped-1', name: 'Shaped Macaroni 1', image: macaroniShaped1 },
+      { id: 'macaroni-shaped-2', name: 'Shaped Macaroni 2', image: macaroniShaped2 },
     ]
   },
   {
@@ -87,7 +100,9 @@ export const foodCategories: FoodCategory[] = [
       { id: 'peas', name: 'Steamed Peas', image: steamedPeas },
       { id: 'fava-beans', name: 'Fava Beans', image: favaBeans },
       { id: 'broccoli', name: 'Steamed Broccoli', image: steamedBroccoli },
-      { id: 'mixed-veggies', name: 'Mixed Steamed Vegetables', image: mixedVeggiesSteamed }
+      { id: 'mixed-veggies', name: 'Mixed Steamed Vegetables', image: mixedVeggiesSteamed },
+      { id: 'cucumber', name: 'Cucumber', image: cucumber },
+      { id: 'tomatoes', name: 'Tomatoes', image: tomatoes },
     ]
   },
   {
@@ -112,5 +127,12 @@ export const foodCategories: FoodCategory[] = [
       { id: 'chicken-fingers', name: 'Chicken Fingers', image: chickenFingers },
       { id: 'fish-fingers', name: 'Fish Fingers', image: fishFingers }
     ]
-  }
+  },
+  {
+    id: 'seafood',
+    name: 'Seafood',
+    items: [
+      { id: 'boiled-shrimps', name: 'Boiled Shrimps', image: boiledShrimps },
+    ]
+  },
 ]; 

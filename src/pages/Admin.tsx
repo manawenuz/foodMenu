@@ -36,33 +36,53 @@ const Admin: React.FC = () => {
   });
 
   useEffect(() => {
-    // Load availability status from localStorage
-    const savedStatus = localStorage.getItem('foodAvailability');
-    const initialStatus = savedStatus ? JSON.parse(savedStatus) : {};
-    
-    // Create food items array with availability status
-    const items: FoodItemWithStatus[] = foodCategories.flatMap(category =>
-      category.items.map(item => ({
-        ...item,
-        available: initialStatus[item.id] ?? true // Default to available if not set
-      }))
-    );
-    
-    setFoodItems(items);
+    // Load availability status from the data file
+    fetch('/data/foodAvailability.json')
+      .then(response => response.json())
+      .then(data => {
+        const items: FoodItemWithStatus[] = foodCategories.flatMap(category =>
+          category.items.map(item => ({
+            ...item,
+            available: data[item.id] ?? true // Default to available if not set
+          }))
+        );
+        setFoodItems(items);
+      })
+      .catch(error => {
+        console.error('Error loading food availability:', error);
+        // If file doesn't exist or error occurs, initialize with all items available
+        const items: FoodItemWithStatus[] = foodCategories.flatMap(category =>
+          category.items.map(item => ({
+            ...item,
+            available: true
+          }))
+        );
+        setFoodItems(items);
+      });
   }, []);
 
-  const handleAvailabilityChange = (itemId: string, available: boolean) => {
+  const handleAvailabilityChange = async (itemId: string, available: boolean) => {
     setFoodItems(prevItems => {
       const newItems = prevItems.map(item =>
         item.id === itemId ? { ...item, available } : item
       );
       
-      // Save to localStorage
+      // Save to data file
       const availabilityMap = newItems.reduce((acc, item) => ({
         ...acc,
         [item.id]: item.available
       }), {});
-      localStorage.setItem('foodAvailability', JSON.stringify(availabilityMap));
+
+      // Send update to server
+      fetch('/api/updateAvailability', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(availabilityMap),
+      }).catch(error => {
+        console.error('Error saving food availability:', error);
+      });
       
       return newItems;
     });
