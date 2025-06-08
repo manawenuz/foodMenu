@@ -71,10 +71,13 @@ app.post('/api/food-data', async (req, res) => {
 // Serve static files from the React app's build directory
 app.use(express.static(path.join(__dirname, 'build')));
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Serve React build for all other routes (SPA fallback)
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/images') && !req.path.startsWith('/favicon.ico')) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  } else {
+    next();
+  }
 });
 
 // Initialize data and start server

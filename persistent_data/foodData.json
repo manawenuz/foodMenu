@@ -50,6 +50,30 @@
         "name": "Cutlets",
         "image": "/images/cutlets.webp",
         "available": true
+      },
+      {
+        "id": "cutlets-jpg",
+        "name": "Cutlets (photo)",
+        "image": "/images/cutlets.jpg",
+        "available": true
+      },
+      {
+        "id": "grilled-chicken-jpg",
+        "name": "Grilled Chicken (photo)",
+        "image": "/images/GrilledChicken.jpg",
+        "available": true
+      },
+      {
+        "id": "liver-pate-jpg",
+        "name": "Liver Pate (photo)",
+        "image": "/images/LiverPate.jpg",
+        "available": true
+      },
+      {
+        "id": "miso-soup-jpg",
+        "name": "Miso Soup (photo)",
+        "image": "/images/MisoSoup.jpg",
+        "available": true
       }
     ]
   },
@@ -236,6 +260,12 @@
         "name": "Tomatoes",
         "image": "/images/tomatoes.webp",
         "available": true
+      },
+      {
+        "id": "carrots-jpg",
+        "name": "Carrots (photo)",
+        "image": "/images/Carrots.jpg",
+        "available": true
       }
     ]
   },
@@ -253,6 +283,12 @@
         "id": "baked-potatoes",
         "name": "Baked Potatoes",
         "image": "/images/bakedPotatoes.webp",
+        "available": true
+      },
+      {
+        "id": "dry-bread-jpg",
+        "name": "Dry Bread (photo)",
+        "image": "/images/DryBread.jpg",
         "available": true
       }
     ]
