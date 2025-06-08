@@ -18,115 +18,76 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import { foodCategories, FoodItem } from '../data/foodData';
 import AddIcon from '@mui/icons-material/Add';
+import { FoodCategory, FoodItem } from '../types';
 
-interface FoodItemWithStatus extends FoodItem {
-  available: boolean;
+interface AdminProps {
+  initialFoodData: FoodCategory[];
+  onUpdateFoodData: (updatedData: FoodCategory[]) => Promise<void>;
 }
 
-const Admin: React.FC = () => {
-  const [foodItems, setFoodItems] = useState<FoodItemWithStatus[]>([]);
+const Admin: React.FC<AdminProps> = ({ initialFoodData, onUpdateFoodData }) => {
+  const [foodDataState, setFoodDataState] = useState<FoodCategory[]>(initialFoodData);
   const [openDialog, setOpenDialog] = useState(false);
   const [newItem, setNewItem] = useState({
     name: '',
     categoryId: '',
-    image: null as File | null,
-    imagePreview: '',
+    imageFilename: '',
   });
 
   useEffect(() => {
-    // Load availability status from the data file
-    fetch('/data/foodAvailability.json')
-      .then(response => response.json())
-      .then(data => {
-        const items: FoodItemWithStatus[] = foodCategories.flatMap(category =>
-          category.items.map(item => ({
-            ...item,
-            available: data[item.id] ?? true // Default to available if not set
-          }))
-        );
-        setFoodItems(items);
-      })
-      .catch(error => {
-        console.error('Error loading food availability:', error);
-        // If file doesn't exist or error occurs, initialize with all items available
-        const items: FoodItemWithStatus[] = foodCategories.flatMap(category =>
-          category.items.map(item => ({
-            ...item,
-            available: true
-          }))
-        );
-        setFoodItems(items);
-      });
-  }, []);
+    setFoodDataState(initialFoodData);
+  }, [initialFoodData]);
 
-  const handleAvailabilityChange = async (itemId: string, available: boolean) => {
-    setFoodItems(prevItems => {
-      const newItems = prevItems.map(item =>
-        item.id === itemId ? { ...item, available } : item
-      );
-      
-      // Save to data file
-      const availabilityMap = newItems.reduce((acc, item) => ({
-        ...acc,
-        [item.id]: item.available
-      }), {});
-
-      // Send update to server
-      fetch('/api/updateAvailability', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(availabilityMap),
-      }).catch(error => {
-        console.error('Error saving food availability:', error);
-      });
-      
-      return newItems;
+  const handleAvailabilityChange = async (categoryId: string, itemId: string, available: boolean) => {
+    const newData = foodDataState.map(category => {
+      if (category.id === categoryId) {
+        return {
+          ...category,
+          items: category.items.map(item =>
+            item.id === itemId ? { ...item, available } : item
+          ),
+        };
+      }
+      return category;
     });
+    setFoodDataState(newData);
+    await onUpdateFoodData(newData);
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setNewItem(prev => ({
-        ...prev,
-        image: file,
-        imagePreview: URL.createObjectURL(file)
-      }));
+  const handleAddItem = async () => {
+    if (!newItem.name || !newItem.categoryId || !newItem.imageFilename) {
+      alert("Please provide item name, category, and image filename.");
+      return;
     }
-  };
 
-  const handleAddItem = () => {
-    if (!newItem.name || !newItem.categoryId || !newItem.image) return;
-
-    const category = foodCategories.find(cat => cat.id === newItem.categoryId);
-    if (!category) return;
-
-    const newFoodItem: FoodItemWithStatus = {
+    const newFoodItem: FoodItem = {
       id: `item-${Date.now()}`,
       name: newItem.name,
-      image: newItem.imagePreview,
+      image: `/images/${newItem.imageFilename.trim()}`,
       available: true,
     };
 
-    // Update foodCategories (in a real app, this would be handled by a backend)
-    category.items.push(newFoodItem);
-
-    // Update local state
-    setFoodItems(prev => [...prev, newFoodItem]);
-
-    // Reset form and close dialog
-    setNewItem({
-      name: '',
-      categoryId: '',
-      image: null,
-      imagePreview: '',
+    const newData = foodDataState.map(category => {
+      if (category.id === newItem.categoryId) {
+        return {
+          ...category,
+          items: [...category.items, newFoodItem],
+        };
+      }
+      return category;
     });
+
+    setFoodDataState(newData);
+    await onUpdateFoodData(newData);
+
+    setNewItem({ name: '', categoryId: '', imageFilename: '' });
     setOpenDialog(false);
   };
+
+  const allItems = foodDataState.flatMap(category => 
+    category.items.map(item => ({ ...item, categoryId: category.id }))
+  );
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -145,7 +106,7 @@ const Admin: React.FC = () => {
       </Box>
       
       <Grid container spacing={3}>
-        {foodItems.map((item) => (
+        {allItems.map((item) => (
           <Grid item xs={12} sm={6} md={4} key={item.id}>
             <Card 
               sx={{ 
@@ -172,7 +133,7 @@ const Admin: React.FC = () => {
                   control={
                     <Switch
                       checked={item.available}
-                      onChange={(e) => handleAvailabilityChange(item.id, e.target.checked)}
+                      onChange={(e) => handleAvailabilityChange(item.categoryId, item.id, e.target.checked)}
                       color="primary"
                     />
                   }
@@ -201,35 +162,19 @@ const Admin: React.FC = () => {
               value={newItem.categoryId}
               onChange={(e) => setNewItem(prev => ({ ...prev, categoryId: e.target.value }))}
             >
-              {foodCategories.map((category) => (
+              {foodDataState.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               ))}
             </TextField>
-            <Box>
-              <input
-                accept="image/*"
-                type="file"
-                id="image-upload"
-                hidden
-                onChange={handleImageChange}
-              />
-              <label htmlFor="image-upload">
-                <Button variant="outlined" component="span" fullWidth>
-                  Upload Photo
-                </Button>
-              </label>
-              {newItem.imagePreview && (
-                <Box sx={{ mt: 2, textAlign: 'center' }}>
-                  <img
-                    src={newItem.imagePreview}
-                    alt="Preview"
-                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'cover' }}
-                  />
-                </Box>
-              )}
-            </Box>
+            <TextField
+              label="Image Filename (e.g., myCoolImage.webp)"
+              fullWidth
+              value={newItem.imageFilename}
+              onChange={(e) => setNewItem(prev => ({ ...prev, imageFilename: e.target.value }))}
+              helperText="Ensure this image exists in /public/images on the server before adding."
+            />
           </Box>
         </DialogContent>
         <DialogActions>
@@ -237,7 +182,7 @@ const Admin: React.FC = () => {
           <Button
             onClick={handleAddItem}
             variant="contained"
-            disabled={!newItem.name || !newItem.categoryId || !newItem.image}
+            disabled={!newItem.name || !newItem.categoryId || !newItem.imageFilename}
           >
             Add Item
           </Button>

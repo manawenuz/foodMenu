@@ -11,5 +11,5 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     volumes:
-      - ./src/assets:/app/src/assets
-      - ./data:/app/data 
+      - ./food_data_persist:/app/persistent_data
+      - ./src/assets:/app/src/assets 

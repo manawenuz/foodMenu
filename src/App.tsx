@@ -1,26 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Box, IconButton } from '@mui/material';
+import { Container, Grid, Typography, Box, IconButton, CircularProgress, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { foodCategories, FoodCategory } from './data/foodData';
 import CategoryCard from './components/CategoryCard';
 import FoodItemCard from './components/FoodItemCard';
 import Admin from './pages/Admin';
 import './App.css';
+import { FoodCategory, FoodItem } from './types';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [foodAvailability, setFoodAvailability] = useState<Record<string, boolean>>({});
+  const [foodData, setFoodData] = useState<FoodCategory[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchFoodData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/food-data');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: FoodCategory[] = await response.json();
+      setFoodData(data);
+    } catch (e) {
+      console.error("Failed to fetch food data:", e);
+      setError("Failed to load menu data. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Load availability status from localStorage
-    const savedStatus = localStorage.getItem('foodAvailability');
-    if (savedStatus) {
-      setFoodAvailability(JSON.parse(savedStatus));
-    }
+    fetchFoodData();
   }, []);
 
-  // Toggle admin mode with keyboard shortcut (Ctrl/Cmd + Shift + A)
+  const handleUpdateFoodData = async (updatedData: FoodCategory[]) => {
+    try {
+      const response = await fetch('/api/food-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      setFoodData(updatedData);
+    } catch (e) {
+      console.error("Failed to update food data:", e);
+      setError("Failed to save changes. Please try again.");
+    }
+  };
+
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
@@ -28,13 +62,34 @@ function App() {
         setIsAdmin(prev => !prev);
       }
     };
-
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+        <Typography sx={{ ml: 2 }}>Loading Menu...</Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
+        <Typography variant="h5" color="error">{error}</Typography>
+        <Button variant="contained" onClick={fetchFoodData} sx={{mt: 2}}>Try Again</Button>
+      </Box>
+    );
+  }
+  
+  if (!foodData) {
+     return <Typography>No food data available.</Typography>;
+  }
+
   if (isAdmin) {
-    return <Admin />;
+    return <Admin initialFoodData={foodData} onUpdateFoodData={handleUpdateFoodData} />;
   }
 
   return (
@@ -65,8 +120,7 @@ function App() {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
             {!selectedCategory ? (
-              // Show categories
-              foodCategories.map((category: FoodCategory) => (
+              foodData.map((category: FoodCategory) => (
                 <Grid item key={category.id} xs={12} sm={6} md={4}>
                   <CategoryCard
                     category={category}
@@ -75,10 +129,9 @@ function App() {
                 </Grid>
               ))
             ) : (
-              // Show food items for selected category
               selectedCategory.items
-                .filter(item => foodAvailability[item.id] !== false) // Filter out unavailable items
-                .map((item) => (
+                .filter(item => item.available)
+                .map((item: FoodItem) => (
                   <Grid item key={item.id} xs={12} sm={6} md={4}>
                     <FoodItemCard item={item} />
                   </Grid>

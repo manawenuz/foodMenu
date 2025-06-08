@@ -57,6 +57,18 @@ export const foodCategories: FoodCategory[] = [
       { id: 'persian-omelette', name: 'Persian Omelette', image: persianOmelette },
       { id: 'khinkali', name: 'Khinkali', image: khinkali },
       { id: 'cooked-minced-beef', name: 'Cooked Minced Beef', image: cookedMincedBeef },
+      { id: 'kabab-tabei', name: 'Kabab Tabei', image: '/images/kababtabei.webp' },
+      { id: 'cutlets', name: 'Cutlets', image: '/images/cutlets.webp' },
+    ]
+  },
+  {
+    id: 'breakfast-brunch',
+    name: 'Breakfast & Brunch',
+    items: [
+      { id: 'boiled-eggs', name: 'Boiled Eggs', image: '/images/boiledEggs.webp' },
+      { id: 'sirniki', name: 'Sirniki', image: '/images/sirniki.webp' },
+      { id: 'blinni', name: 'Blini', image: '/images/blinni.webp' },
+      { id: 'chvishtari', name: 'Chvishtari', image: '/images/chvishtari.webp' },
     ]
   },
   {
