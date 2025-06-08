@@ -10,8 +10,11 @@ const PORT = process.env.PORT || 3000;
 const PERSISTENT_DATA_DIR = path.join(__dirname, 'persistent_data');
 const FOOD_DATA_PATH = path.join(PERSISTENT_DATA_DIR, 'foodData.json');
 
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Serve images from public/images
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
@@ -68,16 +71,9 @@ app.post('/api/food-data', async (req, res) => {
   }
 });
 
-// Serve static files from the React app's build directory
-app.use(express.static(path.join(__dirname, 'build')));
-
-// Serve React build for all other routes (SPA fallback)
-app.use((req, res, next) => {
-  if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/images') && !req.path.startsWith('/favicon.ico')) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  } else {
-    next();
-  }
+// SPA fallback: serve build/index.html for all other GET requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Initialize data and start server
