@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 3000;
 const PERSISTENT_DATA_DIR = path.join(__dirname, 'persistent_data');
 const FOOD_DATA_PATH = path.join(PERSISTENT_DATA_DIR, 'foodData.json');
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Ensure persistent data directory exists

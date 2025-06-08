@@ -1,0 +1,302 @@
+[
+  {
+    "id": "main-dishes",
+    "name": "Main Dishes",
+    "items": [
+      {
+        "id": "roasted-chicken",
+        "name": "Roasted Chicken Leg",
+        "image": "/images/roastedChickenLeg.webp",
+        "available": true
+      },
+      {
+        "id": "salmon",
+        "name": "Salmon Steak",
+        "image": "/images/salmonSteak.avif",
+        "available": true
+      },
+      {
+        "id": "beef-tongue",
+        "name": "Beef Tongue",
+        "image": "/images/beeftongue.webp",
+        "available": true
+      },
+      {
+        "id": "persian-omelette",
+        "name": "Persian Omelette",
+        "image": "/images/Omelette-Godje-Faranghi-Persisches-Omelette-املت-گوجه-فرنگی.jpeg",
+        "available": true
+      },
+      {
+        "id": "khinkali",
+        "name": "Khinkali",
+        "image": "/images/khinkali.webp",
+        "available": true
+      },
+      {
+        "id": "cooked-minced-beef",
+        "name": "Cooked Minced Beef",
+        "image": "/images/cookedMincedBeef.webp",
+        "available": true
+      },
+      {
+        "id": "kababtabei",
+        "name": "Kabab Tabei",
+        "image": "/images/kababtabei.webp",
+        "available": true
+      },
+      {
+        "id": "cutlets",
+        "name": "Cutlets",
+        "image": "/images/cutlets.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "pasta-rice",
+    "name": "Pasta & Rice",
+    "items": [
+      {
+        "id": "persian-rice",
+        "name": "Persian Rice",
+        "image": "/images/persianRice.webp",
+        "available": true
+      },
+      {
+        "id": "sticky-rice",
+        "name": "Sticky Rice",
+        "image": "/images/sticky rice.webp",
+        "available": true
+      },
+      {
+        "id": "thin-noodles",
+        "name": "Thin Rice Noodles",
+        "image": "/images/thin rice noodels.webp",
+        "available": true
+      },
+      {
+        "id": "thick-noodles",
+        "name": "Thick Rice Noodles",
+        "image": "/images/thick rice noodles.webp",
+        "available": true
+      },
+      {
+        "id": "spaghetti",
+        "name": "Spaghetti Bolognese",
+        "image": "/images/spaghetti bolognese.webp",
+        "available": true
+      },
+      {
+        "id": "macaroni",
+        "name": "Macaroni",
+        "image": "/images/macarroni.webp",
+        "available": true
+      },
+      {
+        "id": "soba-noodles",
+        "name": "Soba Noodles",
+        "image": "/images/sobaNoodles.webp",
+        "available": true
+      },
+      {
+        "id": "macaroni-shaped-1",
+        "name": "Shaped Macaroni 1",
+        "image": "/images/macaroniShaped1.webp",
+        "available": true
+      },
+      {
+        "id": "macaroni-shaped-2",
+        "name": "Shaped Macaroni 2",
+        "image": "/images/macaroniShaped2.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "dumplings",
+    "name": "Dumplings",
+    "items": [
+      {
+        "id": "vareniki",
+        "name": "Russian Vareniki",
+        "image": "/images/russianvareniki.webp",
+        "available": true
+      },
+      {
+        "id": "dumplings",
+        "name": "Russian Dumplings",
+        "image": "/images/russian Dumplings.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "porridge",
+    "name": "Porridge",
+    "items": [
+      {
+        "id": "psheno",
+        "name": "Psheno Porridge",
+        "image": "/images/pshenoPorridge.webp",
+        "available": true
+      },
+      {
+        "id": "oat",
+        "name": "Oat Porridge",
+        "image": "/images/oatPorridge.webp",
+        "available": true
+      },
+      {
+        "id": "grechka",
+        "name": "Grechka with Butter",
+        "image": "/images/Grechka with butter.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "breakfast-brunch",
+    "name": "Breakfast & Brunch",
+    "items": [
+      {
+        "id": "boiled-eggs",
+        "name": "Boiled Eggs",
+        "image": "/images/boiledEggs.webp",
+        "available": true
+      },
+      {
+        "id": "sirniki",
+        "name": "Sirniki",
+        "image": "/images/sirniki.webp",
+        "available": true
+      },
+      {
+        "id": "blinni",
+        "name": "Blini",
+        "image": "/images/blinni.webp",
+        "available": true
+      },
+      {
+        "id": "chvishtari",
+        "name": "Chvishtari",
+        "image": "/images/chvishtari.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "vegetables",
+    "name": "Vegetables",
+    "items": [
+      {
+        "id": "cauliflower",
+        "name": "Steamed Cauliflower",
+        "image": "/images/steamedCauliflower.webp",
+        "available": true
+      },
+      {
+        "id": "carrots",
+        "name": "Steamed Carrots",
+        "image": "/images/steamedCarrots.webp",
+        "available": true
+      },
+      {
+        "id": "peas",
+        "name": "Steamed Peas",
+        "image": "/images/steamedPeas.webp",
+        "available": true
+      },
+      {
+        "id": "fava-beans",
+        "name": "Fava Beans",
+        "image": "/images/favaBeans.webp",
+        "available": true
+      },
+      {
+        "id": "broccoli",
+        "name": "Steamed Broccoli",
+        "image": "/images/steamedBorrocoli.webp",
+        "available": true
+      },
+      {
+        "id": "mixed-veggies",
+        "name": "Mixed Steamed Vegetables",
+        "image": "/images/mixedVeggiesSteamed.webp",
+        "available": true
+      },
+      {
+        "id": "cucumber",
+        "name": "Cucumber",
+        "image": "/images/cucumber.webp",
+        "available": true
+      },
+      {
+        "id": "tomatoes",
+        "name": "Tomatoes",
+        "image": "/images/tomatoes.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "side-dishes",
+    "name": "Side Dishes",
+    "items": [
+      {
+        "id": "french-fries",
+        "name": "French Fries",
+        "image": "/images/frenchFries.webp",
+        "available": true
+      },
+      {
+        "id": "baked-potatoes",
+        "name": "Baked Potatoes",
+        "image": "/images/bakedPotatoes.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "desserts",
+    "name": "Desserts",
+    "items": [
+      {
+        "id": "banana-cake",
+        "name": "Banana Cake",
+        "image": "/images/bananaCake.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "snacks",
+    "name": "Snacks",
+    "items": [
+      {
+        "id": "chicken-fingers",
+        "name": "Chicken Fingers",
+        "image": "/images/chickenFingers.webp",
+        "available": true
+      },
+      {
+        "id": "fish-fingers",
+        "name": "Fish Fingers",
+        "image": "/images/fishFingers.webp",
+        "available": true
+      }
+    ]
+  },
+  {
+    "id": "seafood",
+    "name": "Seafood",
+    "items": [
+      {
+        "id": "boiled-shrimps",
+        "name": "Boiled Shrimps",
+        "image": "/images/boiledShrimps.webp",
+        "available": true
+      }
+    ]
+  }
+]
