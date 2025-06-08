@@ -6,54 +6,14 @@ import FoodItemCard from './components/FoodItemCard';
 import Admin from './pages/Admin';
 import './App.css';
 import { FoodCategory, FoodItem } from './types';
+import { staticFoodData } from './data/staticMenuData';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [foodData, setFoodData] = useState<FoodCategory[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [foodData, setFoodData] = useState<FoodCategory[] | null>(staticFoodData);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchFoodData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('/api/food-data');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data: FoodCategory[] = await response.json();
-      setFoodData(data);
-    } catch (e) {
-      console.error("Failed to fetch food data:", e);
-      setError("Failed to load menu data. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchFoodData();
-  }, []);
-
-  const handleUpdateFoodData = async (updatedData: FoodCategory[]) => {
-    try {
-      const response = await fetch('/api/food-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      setFoodData(updatedData);
-    } catch (e) {
-      console.error("Failed to update food data:", e);
-      setError("Failed to save changes. Please try again.");
-    }
-  };
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -79,7 +39,7 @@ function App() {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
         <Typography variant="h5" color="error">{error}</Typography>
-        <Button variant="contained" onClick={fetchFoodData} sx={{mt: 2}}>Try Again</Button>
+        <Button variant="contained" onClick={() => {}} sx={{mt: 2}} disabled>Try Again</Button>
       </Box>
     );
   }
@@ -89,7 +49,9 @@ function App() {
   }
 
   if (isAdmin) {
-    return <Admin initialFoodData={foodData} onUpdateFoodData={handleUpdateFoodData} />;
+    return <Admin initialFoodData={foodData} onUpdateFoodData={async (updatedData) => {
+      console.warn('Data persistence is disabled on this static deployment.');
+    }} />;
   }
 
   return (
